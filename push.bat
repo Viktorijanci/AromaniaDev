@@ -1,4 +1,5 @@
 git add .
-git commit -m "commit"
+set /p delBuild=Commit message [commit]: 
+git commit -m "%delBuild%"
 git push
 pause
