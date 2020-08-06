@@ -8,3 +8,6 @@ Ovo ima nekoliko razloga:
 Ovo ima nekoliko razlog:
 - Nije instaliran Node.js - Ukoliko command prompt izbaci error kada se ukuca "npm," onda nije instaliran Node.js. On se može skinuti ovde (poželjno bi bilo skinuti LTS verziju): https://nodejs.org/en/
 - Nije instaliran live-server - Ukoliko command prompt izbasci error kada se ukuca "live-server," onda nije instaliran modul "live-server." On se instalira tako što se u command prompt ukuca: `npm i -g live-server`
+## Bitni linkovi
+- Link za automatsko priključivanje Trello timu: https://trello.com/invite/viktorijanci/a0f8ae479746840d3e22fbd68b4f49c0
+- Trello board: https://trello.com/b/HKBnOt7e
