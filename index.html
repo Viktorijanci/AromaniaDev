@@ -36,6 +36,7 @@
 			var dir = pWorld.sub( camera.position ).normalize();
 			var light = new THREE.AmbientLight( 0x404040 ); // soft white light
 			scene.add(light);
+			let controls = new THREE.TrackballControls(camera, renderer.domElement);
 	   	function deg2Rad(x) {
 	       	return x * Math.PI / 180;
 	   	};
