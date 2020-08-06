@@ -1,15 +1,11 @@
 // Find the latest version by visiting https://unpkg.com/three. The URL will
 // redirect to the newest stable release.
 import * as THREE from 'https://unpkg.com/three@0.119.1/build/three.module.js';
-let OrbitControls;
-async function loadThis(){
-  OrbitControls = await import('./OrbitControls.js');
-}
-loadThis();
+import {GLTFLoader} from './GLTFLoader.js';
 document.getElementById("clickOnThis").addEventListener("click", function onEvent(event){
   event.target.style.display="none";
   start();
-})
+});
 function start(){
   var scene = new THREE.Scene();
   //THREE.PerspectiveCamera(fov, aspectRatio, nearClippingPlane, farClippingPlane)
@@ -21,17 +17,28 @@ function start(){
   var material = new THREE.MeshToonMaterial({color: "#0000ff", gradientMap: "fiveTone"});
   var cube = new THREE.Mesh( geometry, material );
   scene.add(cube);
-  var pLocal = new THREE.Vector3( 0, 0, -1 );
-  var pWorld = pLocal.applyMatrix4( camera.matrixWorld );
-  var dir = pWorld.sub( camera.position ).normalize();
   var light = new THREE.AmbientLight( 0x404040 ); // soft white light
   scene.add(light);
+  var loader = new GLTFLoader();
+  loader.load( '../models/humanbody.glb', function ( gltf ) {
+	   scene.add( gltf.scene );
+   }, undefined, function ( error ) {
+	    console.error( error );
+   }
+  );
+  loader.load( '../models/humanbody.glb', function ( gltf ) {
+      gltf.scene.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
+	   scene.add(gltf.scene);
+   }, undefined, function ( error ) {
+	    console.error( error );
+   }
+  );
   function deg2Rad(x) {
       return x * Math.PI / 180;
-  };
+  }
   function rad2Deg(x) {
       return x * 180 / Math.PI;
-  };
+  }
   document.addEventListener("keydown", function onEvent(event) {
     console.info("key:",event.key);
     if (event.key === "a") {
@@ -78,6 +85,7 @@ function start(){
   camera.position.y = 1;
   function animate() {
     requestAnimationFrame( animate );
+    //console.info("dir:",camera.getWorldDirection());
     renderer.render( scene, camera );
   }
   animate();
