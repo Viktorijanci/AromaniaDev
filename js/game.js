@@ -17,22 +17,28 @@ function start(){
   var material = new THREE.MeshToonMaterial({color: "#0000ff", gradientMap: "fiveTone"});
   var cube = new THREE.Mesh( geometry, material );
   scene.add(cube);
-  var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+  var light = new THREE.AmbientLight( 0x0000ff ); // soft white light
   scene.add(light);
   var loader = new GLTFLoader();
-  loader.load( '../models/humanbody.glb', function ( gltf ) {
-	   scene.add( gltf.scene );
-   }, undefined, function ( error ) {
-	    console.error( error );
-   }
-  );
-  loader.load( '../models/humanbody.glb', function ( gltf ) {
-      gltf.scene.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
+  let modelGroup= new THREE.Group();
+  loader.load( '../models/humanbody2.0.glb', function ( gltf ) {
+     modelGroup.add(gltf.scene);
 	   scene.add(gltf.scene);
+     console.log(gltf.scene);
    }, undefined, function ( error ) {
 	    console.error( error );
    }
   );
+  loader.load( '../models/humanbody2.0.glb', function ( gltf ) {
+     gltf.scene.applyMatrix4(new THREE.Matrix4().makeScale(-1, 1, 1));
+     modelGroup.add(gltf.scene);
+	   scene.add(gltf.scene);
+     console.log(gltf.scene);
+   }, undefined, function ( error ) {
+	    console.error( error );
+   }
+  );
+  console.log(modelGroup);
   function deg2Rad(x) {
       return x * Math.PI / 180;
   }
