@@ -13,7 +13,7 @@ function start(){
   var renderer = new THREE.WebGLRenderer();
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
-  var geometry = new THREE.BoxGeometry(100,1,100);
+  var geometry = new THREE.BoxGeometry(1000,1,1000);
   var material = new THREE.MeshToonMaterial({color: "#0000ff", gradientMap: "fiveTone"});
   var cube = new THREE.Mesh( geometry, material );
   scene.add(cube);
@@ -45,30 +45,41 @@ function start(){
   function rad2Deg(x) {
       return x * 180 / Math.PI;
   }
+  function walkCamera(e){
+    if(e%2==0){
+      camera.position.y+=0.1;
+    }else{
+      camera.position.y-=0.1;
+    }
+  }
   document.addEventListener("keydown", function onEvent(event) {
     console.info("key:",event.key);
     if (event.key === "a") {
-      camera.position.x-=deg2Rad(2.5);
+      camera.position.x-=1;
+      walkCamera(camera.position.x);
       camera.updateProjectionMatrix();
     }
     if(event.key==="d"){
-      camera.position.x+=deg2Rad(2.5);
+      camera.position.x+=1;
+      walkCamera(camera.position.x);
       camera.updateProjectionMatrix();
     }
     if (event.key === "w") {
-      camera.position.z-=deg2Rad(2.5);
+      camera.position.z-=1;
+      walkCamera(camera.position.z);
       camera.updateProjectionMatrix();
     }
     if(event.key==="s"){
-      camera.position.z+=deg2Rad(2.5);
+      camera.position.z+=1;
+      walkCamera(camera.position.z);
       camera.updateProjectionMatrix();
     }
     if(event.key===" "){
-      camera.position.y+=deg2Rad(2.5);
+      camera.position.y+=0.1;
       camera.updateProjectionMatrix();
     }
     if(event.key==="Shift"){
-      camera.position.y-=deg2Rad(2.5);
+      camera.position.y-=0.1;
       camera.updateProjectionMatrix();
     }
     if(event.key==="ArrowLeft"){
@@ -84,14 +95,17 @@ function start(){
       camera.rotation.x-=deg2Rad(2.5);
     }
   });
-  if (rad2Deg(camera.rotation.y) > 360) camera.rotation.y -= deg2Rad(360);
-  if (rad2Deg(camera.rotation.x) > 360) camera.rotation.x -= deg2Rad(360);
-  if (rad2Deg(camera.rotation.y) < -360) camera.rotation.y += deg2Rad(360);
-  if (rad2Deg(camera.rotation.x) < -360) camera.rotation.x += deg2Rad(360);
-  camera.position.y = 1;
+  camera.position.y = 10;
+  let vector = new THREE.Vector3();
   function animate() {
     requestAnimationFrame( animate );
-    //console.info("dir:",camera.getWorldDirection());
+    camera.getWorldDirection(vector);
+    console.log(vector);
+    if (camera.position.y<1) camera.position.y=10;
+    if (rad2Deg(camera.rotation.y) > 360) camera.rotation.y -= deg2Rad(360);
+    if (rad2Deg(camera.rotation.x) > 360) camera.rotation.x -= deg2Rad(360);
+    if (rad2Deg(camera.rotation.y) < -360) camera.rotation.y += deg2Rad(360);
+    if (rad2Deg(camera.rotation.x) < -360) camera.rotation.x += deg2Rad(360);
     renderer.render( scene, camera );
   }
   animate();
