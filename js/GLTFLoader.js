@@ -1413,7 +1413,7 @@ var GLTFLoader = ( function () {
 		if ( cache[ 'DefaultMaterial' ] === undefined ) {
 
 			cache[ 'DefaultMaterial' ] = new MeshStandardMaterial( {
-				color: 0xFFFFFF,
+				color: 0xffffff,
 				emissive: 0x000000,
 				metalness: 1,
 				roughness: 1,
