@@ -27,24 +27,39 @@ canvas {
   text-align: center;
 }
 #ha {
+  padding: 5px;
+  width: 400px;
+  height:30px;
+}
+#profile {
   display: none;
+  flex-direction: column-reverse;
   position: absolute;
   left: 2%;
   bottom: 2%;
-  width: 400px;
-  height:30px;
+  background-color: white;
+  border: 3px solid black;
+  height: 100px;
+}
+#name {
+  position: absolute;
+  font-size: 16px;
+  left: 2%;
+  bottom: 50%;
 }
 .bar {
   width: 200px;
   height: 20px;
+  border-top: 3px black solid;
+  border-bottom: 3px black solid;
 }
 #health {
-  border: #0f0;
-  background: linear-gradient(to right, #0f0, #0f0, #0f0 80%, #f00 80%);
+  border-left: 3px black solid;
+  background: linear-gradient(to right, #0f0 100%, #f00 100%);
 }
 #armor {
-  border: gray;
-  background: linear-gradient(to right, gray, gray, gray 80%, #ff0 80%);
+  border-right: 3px black solid;
+  background: linear-gradient(to right, gray 100%, #ff0 100%);
 }
 .button {
   width: 120px;

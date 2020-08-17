@@ -13,6 +13,13 @@ function deg2Rad(x) {
 function rad2Deg(x) {
     return x * 180 / Math.PI;
 }
+function changeDOM(renderer){
+  document.getElementById("gameRender").appendChild( renderer.domElement );
+  document.getElementById("gameRender").style.display="inherit";
+  document.getElementById("profile").style.display="flex";
+  document.getElementById("ha").style.display="flex";
+  document.getElementById("name").innerHTML="amc, Level 1 Human";
+}
 //classes
 class ActualModel{
   constructor(animations, scene, scenes, cameras, asset){
@@ -76,8 +83,8 @@ class Player {
           item.scene.rotation.y+=delta;
         });
         if(debug) console.info("camera location:",this.camera.getWorldDirection());
-    }
-  }catch(e){
+      }
+    }catch(e){
       console.log(e);
     }
   }
@@ -90,9 +97,7 @@ function start(){
   var camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000 );
   var renderer = new THREE.WebGLRenderer();
   renderer.setSize( window.innerWidth, window.innerHeight );
-  document.getElementById("gameRender").appendChild( renderer.domElement );
-  document.getElementById("gameRender").style.display="inherit";
-  document.getElementById("ha").style.display="flex";
+  changeDOM(renderer);
   //Create the plane
   var geometry = new THREE.BoxGeometry(1000,1,1000);
   var material = new THREE.MeshToonMaterial({color: "#0000ff"});
