@@ -3,9 +3,17 @@
 import * as THREE from 'https://unpkg.com/three@0.119.1/build/three.module.js';
 import {GLTFLoader} from './GLTFLoader.js';
 document.getElementById("playGame").addEventListener("click", function onEvent(event){
-  event.target.style.display="none";
+  document.getElementById("mainMenu").style.display="none";
   start();
 });
+//important functions
+function deg2Rad(x) {
+    return x * Math.PI / 180;
+}
+function rad2Deg(x) {
+    return x * 180 / Math.PI;
+}
+//classes
 class ActualModel{
   constructor(animations, scene, scenes, cameras, asset){
     this.animations=animations;
@@ -13,6 +21,65 @@ class ActualModel{
     this.scenes=scenes;
     this.cameras=cameras;
     this.asset=asset;
+  }
+}
+class Player {
+  constructor(name, scene, camera, health, armor, inventory, equipped){
+    this.name=name;
+    this.scene=scene;
+    this.camera=camera;
+    this.health=health;
+    this.armor=armor;
+    this.inventory=inventory;
+    this.equipped=equipped;
+  }
+  move(direction,delta,debug){
+    try{
+      if(direction==="x"){
+        this.camera.position.x+=delta;
+        this.camera.updateProjectionMatrix();
+        this.scene.forEach(item => {
+          item.scene.position.x+=delta;
+        });
+        if(debug) console.info("camera location:",this.camera.getWorldPosition());
+      }
+      if(direction==="z"){
+        this.camera.position.z+=delta;
+        this.camera.updateProjectionMatrix();
+        this.scene.forEach(item => {
+          item.scene.position.x+=delta;
+        });
+        if(debug) console.info("camera location:",this.camera.getWorldPosition());
+      }
+      if(direction==="y"){
+        this.camera.position.y+=delta;
+        this.camera.updateProjectionMatrix();
+        this.scene.forEach(item => {
+          item.scene.position.x+=delta;
+        });
+        if(debug) console.info("camera location:",this.camera.getWorldPosition());
+      }
+    }catch(e){
+      console.log(e);
+    }
+  }
+  rotate(direction,delta,debug){
+    try {
+      delta=deg2Rad(delta);
+      if(direction==="x"){
+        this.camera.rotation.x+=delta;
+        if(debug) console.info("camera location:",this.camera.getWorldDirection());
+      }
+      if(direction==="y"){
+        this.camera.rotation.y+=delta;
+        this.scene.forEach(item => {
+          item.scene.rotation.y+=delta;
+        });
+        if(debug) console.info("camera location:",this.camera.getWorldDirection());
+    }
+  }catch(e){
+      console.log(e);
+    }
   }
 }
 function start(){
@@ -23,7 +90,9 @@ function start(){
   var camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000 );
   var renderer = new THREE.WebGLRenderer();
   renderer.setSize( window.innerWidth, window.innerHeight );
-  document.body.findElementsById("gameRender").appendChild( renderer.domElement );
+  document.getElementById("gameRender").appendChild( renderer.domElement );
+  document.getElementById("gameRender").style.display="inherit";
+  document.getElementById("ha").style.display="flex";
   //Create the plane
   var geometry = new THREE.BoxGeometry(1000,1,1000);
   var material = new THREE.MeshToonMaterial({color: "#0000ff"});
@@ -54,87 +123,26 @@ function start(){
 	    console.error( error );
    }
   );
+  let actualPlayer = new Player("amc",actualModelArr,camera,"100","100",[],false);
   console.info("array:",actualModelArr);
-  function deg2Rad(x) {
-      return x * Math.PI / 180;
-  }
-  function rad2Deg(x) {
-      return x * 180 / Math.PI;
-  }
   //Keypress event listeners
   document.addEventListener("keydown", function onEvent(event) {
     console.info("key:",event.key);
-    if (event.key === "a") {
-      camera.position.x-=0.1;
-      camera.updateProjectionMatrix();
-      actualModelArr.forEach(item => {
-        console.log(item);
-        item.scene.position.x-=0.1;
-        // item.scene.updateProjectionMatrix();
-      });
-      console.log(camera.getWorldPosition());
-    }
-    if(event.key==="d"){
-      camera.position.x+=0.1;
-      camera.updateProjectionMatrix();
-      actualModelArr.forEach(item => {
-        console.log(item);
-        item.scene.position.x+=0.1;
-        // item.scene.updateProjectionMatrix();
-      });
-      console.log(camera.getWorldPosition());
-    }
-    if (event.key === "w") {
-      camera.position.z-=0.1;
-      camera.updateProjectionMatrix();
-      actualModelArr.forEach(item => {
-        console.log(item);
-        item.scene.position.z-=0.1;
-        // item.scene.updateProjectionMatrix();
-      });
-      console.log(camera.getWorldPosition());
-    }
-    if(event.key==="s"){
-      camera.position.z+=0.1;
-      camera.updateProjectionMatrix();
-      actualModelArr.forEach(item => {
-        console.log(item);
-        item.scene.position.z+=0.1;
-        // item.scene.updateProjectionMatrix();
-      });
-      console.log(camera.getWorldPosition());
-    }
-    if(event.key===" "){
-      camera.position.y+=0.1;
-      camera.updateProjectionMatrix();
-      console.log(camera.getWorldPosition());
-    }
-    if(event.key==="Shift"){
-      camera.position.y-=0.1;
-      camera.updateProjectionMatrix();
-      console.log(camera.getWorldPosition());
-    }
-    if(event.key==="ArrowLeft"){
-      console.log(camera.getWorldDirection());
-      camera.rotation.y+=deg2Rad(2.5);
-    }
-    if(event.key==="ArrowRight"){
-      console.log(camera.getWorldDirection());
-      camera.rotation.y-=deg2Rad(2.5);
-    }
-    if(event.key==="ArrowUp"){
-      console.log(camera.getWorldDirection());
-      camera.rotation.x+=deg2Rad(2.5);
-    }
-    if(event.key==="ArrowDown"){
-      console.log(camera.getWorldDirection());
-      camera.rotation.x-=deg2Rad(2.5);
-    }
+    if(event.key==="a") actualPlayer.move("x",-0.1,false);
+    if(event.key==="d") actualPlayer.move("x",0.1,false);
+    if(event.key==="w") actualPlayer.move("z",-0.1,true);
+    if(event.key==="s") actualPlayer.move("z",0.1,false);
+    if(event.key===" ") actualPlayer.move("y",0.1,false);
+    if(event.key==="Shift") actualPlayer.move("y",-0.1,false);
+    if(event.key==="ArrowLeft") actualPlayer.rotate("y",2.5,false);
+    if(event.key==="ArrowRight") actualPlayer.rotate("y",-2.5,false);
+    if(event.key==="ArrowUp") actualPlayer.rotate("x",2.5,false);
+    if(event.key==="ArrowDown") actualPlayer.rotate("x",-2.5,false);
   });
+  //default camera position and orientation
   camera.position.y = 10.5;
   camera.position.z = 1;
   camera.rotation.y = deg2Rad(180);
-  let vector = new THREE.Vector3();
   //Animation
   function animate() {
     requestAnimationFrame(animate);

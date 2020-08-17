@@ -1,4 +1,9 @@
+@font-face {
+  font-family: "Baloo";
+  src: url("https://cdn.glitch.com/322f4f0f-f89c-4d28-8488-aae36236bc9b%2FBalooDa2-Regular.ttf?v=1586277681606");
+}
 body {
+  font-family: Baloo;
   margin: 0;
   background-color: white;
 }
@@ -8,30 +13,73 @@ canvas {
 #mainMenu {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin:auto;
+  border: 1px solid black;
+  width: 210px;
+  height: 180px;
+  padding: 10px;
 }
-#playGame {
+#gameName {
+  padding: 0px;
+  width: 200px;
+  text-align: center;
+}
+#ha {
+  display: none;
+  position: absolute;
+  left: 2%;
+  bottom: 2%;
+  width: 400px;
+  height:30px;
+}
+.bar {
+  width: 200px;
+  height: 20px;
+}
+#health {
+  border: #0f0;
+  background: linear-gradient(to right, #0f0, #0f0, #0f0 80%, #f00 80%);
+}
+#armor {
+  border: gray;
+  background: linear-gradient(to right, gray, gray, gray 80%, #ff0 80%);
+}
+.button {
+  width: 120px;
   border: 1px solid black;
   background-color: gray;
-  animation: colorsReverse 1s;
+  animation: colorsReverse 0.5s;
+  animation-fill-mode: forwards;
+  padding: 5px;
+  cursor:pointer;
+}
+.disabled {
+  opacity: 0.7;
+  animation:none;
+  cursor:not-allowed;
+}
+.button:hover {
+  animation: colors 0.5s;
   animation-fill-mode: forwards;
 }
-#playGame:hover {
-  animation: colors 1s;
-  animation-fill-mode: forwards;
+.disabled:hover{
+  animation:none;
 }
 @keyframes colors {
   from {
-    color: inherit;
+    opacity: 1;
   }
   to {
-    color: rgba(10, 10, 10, 0.2);
+    opacity: 0.8;
   }
 }
 @keyframes colorsReverse {
   from {
-    color: rgba(10, 10, 10, 0.2);
+    opacity: 0.8;
   }
   to {
-    color: inherit;
+    opacity: 1;
   }
 }
