@@ -1,7 +1,7 @@
 # AromaniaDev
 ## Odgovori na bitna pitanja
 ### Kako buildovati/pokrenuti program
-Pošto je AromaniaDev pisan u vanilla JS-u, nema potrebe koristiti `npm` za pokretanje i buildovanje. Međutim, u kodu se koriste moduli, pa pokušaji da se program pokrene izvršavanjem `index.html`-a ispašće neuspešni zbog same-origin policy-a koji je prisutan u svim modernim veb pretraživačima. Dakle, program se pokreće pokretanjem `start.bat`.
+Pošto je AromaniaDev pisan u vanilla JS-u, nema potrebe koristiti `npm` za pokretanje i buildovanje. Međutim, kod pristupa lokalnim resursima, pa pokušaji da se program pokrene izvršavanjem `index.html`-a ispašće neuspešni zbog same-origin policy-a koji je prisutan u svim modernim web pretraživačima. Takođe, `start.bat` koristi Node.js modul `live-server`, zbog čega je potreban (ali ne i obavezan) Node.js za pokretanje programa. Dakle, program se pokreće pokretanjem `start.bat`. Od verzije ALPHA59 moguće je pokrenuti program tako što se ode na https://viktorijanci.github.io/AromaniaDev/.
 ### update.bat i push.bat ne rade
 Ovo ima nekoliko razloga:
 - Nije instaliran Git - Ukoliko pri desnom kliku na neki folder ne pojavi se `Git Bash here` ili kada se ukuca `git` u command prompt, izbaci error, onda nije instaliran Git. On se može skinuti ovde: https://git-scm.com/downloads
