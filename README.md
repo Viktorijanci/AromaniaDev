@@ -14,3 +14,4 @@ Ovo ima nekoliko razlog:
 ## Bitni linkovi
 - Link za automatsko priključivanje Trello timu: https://trello.com/invite/viktorijanci/a0f8ae479746840d3e22fbd68b4f49c0
 - Trello board: https://trello.com/b/HKBnOt7e
+- Link za online testiranje igre: https://viktorijanci.github.io/AromaniaDev/
