@@ -15,11 +15,13 @@ canvas {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin:auto;
   border: 1px solid black;
-  width: 210px;
-  height: 180px;
   padding: 10px;
+  position: absolute;
+  left: 42%;
+  right: 42%;
+  top: 40%;
+  bottom: 35%;
 }
 #gameName {
   padding: 0px;
