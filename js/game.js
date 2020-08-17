@@ -20,6 +20,11 @@ function changeDOM(renderer){
   document.getElementById("ha").style.display="flex";
   document.getElementById("name").innerHTML="amc, Level 1 Human";
 }
+function displayEscapeMenu(num){
+  if(num===0) document.getElementById("escapeMenu").style.display="flex";
+  if(num===1) document.getElementById("escapeMenu").style.display="none";
+  return num ? 0 : 1;
+}
 //classes
 class ActualModel{
   constructor(animations, scene, scenes, cameras, asset){
@@ -97,6 +102,7 @@ function start(){
   var camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000 );
   var renderer = new THREE.WebGLRenderer();
   renderer.setSize( window.innerWidth, window.innerHeight );
+  //setup DOM elements
   changeDOM(renderer);
   //Create the plane
   var geometry = new THREE.BoxGeometry(1000,1,1000);
@@ -131,6 +137,7 @@ function start(){
   let actualPlayer = new Player("amc",actualModelArr,camera,"100","100",[],false);
   console.info("array:",actualModelArr);
   //Keypress event listeners
+  let num = 0;
   document.addEventListener("keydown", function onEvent(event) {
     console.info("key:",event.key);
     if(event.key==="a") actualPlayer.move("x",-0.1,false);
@@ -143,6 +150,10 @@ function start(){
     if(event.key==="ArrowRight") actualPlayer.rotate("y",-2.5,false);
     if(event.key==="ArrowUp") actualPlayer.rotate("x",2.5,false);
     if(event.key==="ArrowDown") actualPlayer.rotate("x",-2.5,false);
+    if(event.key==="Escape") num=displayEscapeMenu(num);
+    //if(event.key==="F5"){
+    //  promeniKameruU3Lice();
+    //}
   });
   //default camera position and orientation
   camera.position.y = 10.5;
