@@ -26,6 +26,30 @@ function displayEscapeMenu(num){
   return num ? 0 : 1;
 }
 //classes
+class Item {
+  constructor(name, type, rarity,thumbnail,model){
+    this.name=name;
+    this.type=type;
+    this.rarity=rarity;
+    this.thumbnail=thumbnail;
+    this.model=model;
+  }
+}
+class PlayerArmor {
+  constructor(helmet, chest, leg, boots, gloves){
+    this.helmet=helmet;
+    this.chest=chest;
+    this.leg=leg;
+    this.boots=boots;
+    this.gloves=gloves;
+  }
+}
+class Equip {
+  constructor(armor, weapon){
+    this.armor=armor;
+    this.weapon=weapon;
+  }
+}
 class ActualModel{
   constructor(animations, scene, scenes, cameras, asset){
     this.animations=animations;
