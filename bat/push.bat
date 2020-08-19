@@ -3,5 +3,5 @@ git add ../
 set delBuild=commit
 set /p delBuild=Commit message [commit]: 
 git commit -m "%delBuild%"
-git push --set-upstream origin test
+git push --set-upstream origin master
 pause
