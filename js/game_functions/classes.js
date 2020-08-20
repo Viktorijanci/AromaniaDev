@@ -147,7 +147,7 @@ class Player {
   }
   jump(debug){
     try{
-
+      if(debug) console.info("camera position:",camera.position);
     }catch(e){
       console.log(e);
     }
