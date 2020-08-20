@@ -1,3 +1,4 @@
+import * as THREE from 'https://unpkg.com/three@0.119.1/build/three.module.js';
 import * as Calc from './calc.js';
 import * as Misc from './misc.js';
 
@@ -62,7 +63,7 @@ class Player {
     this.armor=armor;
     this.inventory=inventory;
   }
-  move(direction,delta,debug){
+  legacyMove(direction,delta,debug){
     try{
       if(direction==="x"){
         this.camera.position.x+=delta;
@@ -94,9 +95,41 @@ class Player {
       console.log(e);
     }
   }
+  move(direction,debug){
+    let cameraDirection = this.camera.getWorldDirection();
+    cameraDirection.x/=10;
+    cameraDirection.z/=10;
+    cameraDirection.y=0;
+    if(direction==="forward"){
+      this.camera.position.add(cameraDirection);
+      this.inventory.equip.weapon.model.position.add(cameraDirection);
+    }else if(direction==="backward"){
+      cameraDirection.x*=-1;
+      cameraDirection.z*=-1;
+      this.camera.position.add(cameraDirection);
+      this.inventory.equip.weapon.model.position.add(cameraDirection);
+    }else if(direction==="left"){
+      let leftCamera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
+      leftCamera.copy(this.camera,true);
+      leftCamera.rotation.y+=Calc.deg2Rad(-90);
+      let newDirection = leftCamera.getWorldDirection();
+      newDirection.y=0;
+      this.camera.position.add(newDirection);
+      this.inventory.equip.weapon.model.position.add(newDirection);
+    }else if(direction==="right"){
+      let leftCamera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
+      leftCamera.copy(this.camera,true);
+      leftCamera.rotation.y+=Calc.deg2Rad(90);
+      let newDirection = leftCamera.getWorldDirection();
+      newDirection.y=0;
+      this.camera.position.add(newDirection);
+      this.inventory.equip.weapon.model.position.add(newDirection);
+    }
+    if(debug) console.info("camera position:", this.camera.getWorldPosition());
+  }
   rotate(direction,delta,debug){
     try {
-      delta=Calc.deg2Rad(delta);
+      // delta=Calc.deg2Rad(delta);
       if(direction==="x"){
         this.camera.rotation.x+=delta;
         if(debug) console.info("camera direction:",this.camera.getWorldDirection());

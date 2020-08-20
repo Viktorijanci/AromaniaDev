@@ -4,5 +4,4 @@ function deg2Rad(x) {
 function rad2Deg(x) {
     return x * 180 / Math.PI;
 }
-
 export {deg2Rad, rad2Deg};

@@ -36,13 +36,13 @@ function start(){
   //Load the model
   let actualModelArr=ModelLoader.loadModel(scene);
   //load the sword (placeholder)
-  let swordShape = new THREE.BoxGeometry(1,5,1);
+  let swordShape = new THREE.BoxGeometry(0.5,5,0.5);
   let swordMaterial = new THREE.MeshToonMaterial({color:"#ffa500"});
   let sword = new THREE.Mesh(swordShape,swordMaterial);
   scene.add(sword);
   sword.position.y = 10.5;
-  sword.position.z = 1;
-  sword.position.x = 2;
+  sword.position.z = 4;
+  sword.position.x = -3;
   let swordItem = new Game.Item("Test Sword", "Sword",[new Game.Stat("damage",1)],new Game.Rarity("Exclusive","salmon"),null,sword);
   let actualPlayer = new Game.Player("amc",actualModelArr,camera,"100","100",new Game.Inventory(new Game.Equip(new Game.PlayerArmor(null,null,null,null,null),swordItem),[]));
   console.info("inventory:",actualPlayer.inventory);
@@ -51,16 +51,16 @@ function start(){
   let num = 0;
   document.addEventListener("keydown", function onEvent(event) {
     console.info("key:",event.key);
-    if(event.key==="a") actualPlayer.move("x",-0.1,false);
-    if(event.key==="d") actualPlayer.move("x",0.1,false);
-    if(event.key==="w") actualPlayer.move("z",-0.1,true);
-    if(event.key==="s") actualPlayer.move("z",0.1,false);
-    if(event.key===" ") actualPlayer.jump(true);
-    if(event.key==="Shift") actualPlayer.move("y",-0.1,false);
-    if(event.key==="ArrowLeft") actualPlayer.rotate("y",2.5,false);
-    if(event.key==="ArrowRight") actualPlayer.rotate("y",-2.5,false);
-    if(event.key==="ArrowUp") actualPlayer.rotate("x",2.5,false);
-    if(event.key==="ArrowDown") actualPlayer.rotate("x",-2.5,false);
+    if(event.key==="a") actualPlayer.move("left",true);
+    if(event.key==="d") actualPlayer.move("right",true);
+    if(event.key==="w") actualPlayer.move("forward",true);
+    if(event.key==="s") actualPlayer.move("backward",true);
+    if(event.key===" ") actualPlayer.legacyMove("y",0.1,false);
+    if(event.key==="Shift") actualPlayer.legacyMove("y",-0.1,false);
+    if(event.key==="ArrowLeft") actualPlayer.rotate("y",0.1,true);
+    if(event.key==="ArrowRight") actualPlayer.rotate("y",-0.1,true);
+    if(event.key==="ArrowUp") actualPlayer.rotate("x",0.1,false);
+    if(event.key==="ArrowDown") actualPlayer.rotate("x",-0.1,false);
     if(event.key==="Escape") num=Misc.displayEscapeMenu(num);
     //if(event.key==="F5"){
     //  promeniKameruU3Lice();
