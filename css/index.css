@@ -45,9 +45,10 @@ canvas {
 }
 #orientation {
   display: none;
+  flex-direction: column;
   position:absolute;
-  left: 45%;
-  right: 45%;
+  left: 40%;
+  right: 40%;
 }
 #profile {
   display: none;
@@ -73,7 +74,7 @@ canvas {
   top: 40%;
   bottom: 30%;
 }
-#orient {
+.helpText {
   font-size: 16px;
   color:white;
 }

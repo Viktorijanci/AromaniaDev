@@ -48,20 +48,104 @@ function start(){
   console.info("inventory:",actualPlayer.inventory);
   console.info("array:",actualModelArr);
   //Keypress event listeners
-  let num = 0;
+  let num = 0, map={};
   document.addEventListener("keydown", function onEvent(event) {
     console.info("key:",event.key);
-    if(event.key==="a") actualPlayer.move("left",true);
-    if(event.key==="d") actualPlayer.move("right",true);
-    if(event.key==="w") actualPlayer.move("forward",true);
-    if(event.key==="s") actualPlayer.move("backward",true);
-    if(event.key===" ") actualPlayer.legacyMove("y",0.1,false);
-    if(event.key==="Shift") actualPlayer.legacyMove("y",-0.1,false);
-    if(event.key==="ArrowLeft") actualPlayer.rotate("y",0.1,true);
-    if(event.key==="ArrowRight") actualPlayer.rotate("y",-0.1,true);
-    if(event.key==="ArrowUp") actualPlayer.rotate("x",0.1,false);
-    if(event.key==="ArrowDown") actualPlayer.rotate("x",-0.1,false);
-    if(event.key==="Escape") num=Misc.displayEscapeMenu(num);
+    map[event.key]=true;
+    if(map.a && map.w){
+      actualPlayer.move("left",true);
+      actualPlayer.move("forward",true);
+      map={};
+    }
+    if(map.a && map.s){
+      actualPlayer.move("left",true);
+      actualPlayer.move("backward",true);
+      map={};
+    }
+    if(map.a && map[" "]){
+      actualPlayer.move("left",true);
+      actualPlayer.legacyMove("y",0.1,false);
+      map={};
+    }
+    if(map.d && map.w){
+      actualPlayer.move("right",true);
+      actualPlayer.move("forward",true);
+      map={};
+    }
+    if(map.d && map.s){
+      actualPlayer.move("right",true);
+      actualPlayer.move("backward",true);
+      map={};
+    }
+    if(map.d && map[" "]){
+      actualPlayer.move("right",true);
+      actualPlayer.legacyMove("y",0.1,false);
+      map={};
+    }
+    if(map.w && map[" "]){
+      actualPlayer.move("forward",true);
+      actualPlayer.legacyMove("y",0.1,false);
+      map={};
+    }
+    if(map.w && map.Shift){
+      actualPlayer.move("forward",true);
+      actualPlayer.legacyMove("y",-0.1,false);
+      map={};
+    }
+    if(map.s && map[" "]){
+      actualPlayer.move("backward",true);
+      actualPlayer.legacyMove("y",0.1,false);
+      map={};
+    }
+    if(map.s && map.Shift){
+      actualPlayer.move("backward",true);
+      actualPlayer.legacyMove("y",-0.1,false);
+      map={};
+    }
+    if(map.a){
+      actualPlayer.move("left",true);
+      map={};
+    }
+    if(map.d){
+      actualPlayer.move("right",true);
+      map={};
+    }
+    if(map.w){
+      actualPlayer.move("forward",true);
+      map={};
+    }
+    if(map.s){
+      actualPlayer.move("backward",true);
+      map={};
+    }
+    if(map[" "]) {
+      actualPlayer.legacyMove("y",0.1,false);
+      map={};
+    }
+    if(map.Shift){
+      actualPlayer.legacyMove("y",-0.1,false);
+      map={};
+    }
+    if(map.ArrowLeft){
+      actualPlayer.rotate("y",0.1,true);
+      map={};
+    }
+    if(map.ArrowRight) {
+      actualPlayer.rotate("y",-0.1,true);
+      map={};
+    }
+    if(map.ArrowUp) {
+      actualPlayer.rotate("x",0.1,false);
+      map={};
+    }
+    if(map.ArrowDown) {
+      actualPlayer.rotate("x",-0.1,false);
+      map={};
+    }
+    if(map.Escape){
+      num=Misc.displayEscapeMenu(num);
+      map={};
+    }
     //if(event.key==="F5"){
     //  promeniKameruU3Lice();
     //}
@@ -73,6 +157,8 @@ function start(){
   //Animation
   function animate() {
     requestAnimationFrame(animate);
+    document.getElementById("pos").innerHTML="position: x:"+camera.getWorldPosition().x+" y:"+camera.getWorldPosition().y+" z:"+camera.getWorldPosition().z;
+    document.getElementById("orient").innerHTML="orientation: x:"+camera.getWorldDirection().x+" y:"+camera.getWorldDirection().y+" z:"+camera.getWorldDirection().z;
     if (Calc.rad2Deg(camera.rotation.y) > 360) camera.rotation.y -= Calc.deg2Rad(360);
     if (Calc.rad2Deg(camera.rotation.x) > 360) camera.rotation.x -= Calc.deg2Rad(360);
     if (Calc.rad2Deg(camera.rotation.y) < -360) camera.rotation.y += Calc.deg2Rad(360);
