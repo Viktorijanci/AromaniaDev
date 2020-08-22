@@ -19,13 +19,12 @@ function start(){
   //Create the scene
   var scene = new THREE.Scene();
   //Create the camera
-  //THREE.PerspectiveCamera(fov, aspectRatio, nearClippingPlane, farClippingPlane)
   var camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000 );
   var renderer = new THREE.WebGLRenderer();
   renderer.setSize( window.innerWidth, window.innerHeight );
-  //setup DOM elements
+  //Setup DOM elements
   Misc.changeDOM(renderer);
-  //Create the plane
+  //Create the plane and add it to the scene
   var geometry = new THREE.BoxGeometry(1000,1,1000);
   var material = new THREE.MeshToonMaterial({color: "#0000ff"});
   var cube = new THREE.Mesh( geometry, material );
@@ -45,112 +44,174 @@ function start(){
   sword.position.x = -3;
   let swordItem = new Game.Item("Test Sword", "Sword",[new Game.Stat("damage",1)],new Game.Rarity("Exclusive","salmon"),null,sword);
   let actualPlayer = new Game.Player("amc",actualModelArr,camera,"100","100",new Game.Inventory(new Game.Equip(new Game.PlayerArmor(null,null,null,null,null),swordItem),[]));
+  //Debugging, will probably delete later because stable
   console.info("inventory:",actualPlayer.inventory);
   console.info("array:",actualModelArr);
   //Keypress event listeners
   let num = 0, map={};
+  document.addEventListener("keyup", function onEvent(event) {
+    console.info("key:",event.key);
+    map[event.key]=true;
+    if(map.a && map.w){
+      actualPlayer.move("left",true);
+      actualPlayer.move("forward",true);
+    }
+    if(map.a && map.s){
+      actualPlayer.move("left",true);
+      actualPlayer.move("backward",true);
+    }
+    if(map.a && map[" "]){
+      actualPlayer.move("left",true);
+      actualPlayer.legacyMove("y",0.1,false);
+    }
+    if(map.d && map.w){
+      actualPlayer.move("right",true);
+      actualPlayer.move("forward",true);
+    }
+    if(map.d && map.s){
+      actualPlayer.move("right",true);
+      actualPlayer.move("backward",true);
+    }
+    if(map.d && map[" "]){
+      actualPlayer.move("right",true);
+      actualPlayer.legacyMove("y",0.1,false);
+    }
+    if(map.w && map[" "]){
+      actualPlayer.move("forward",true);
+      actualPlayer.legacyMove("y",0.1,false);
+    }
+    if(map.w && map.Shift){
+      actualPlayer.move("forward",true);
+      actualPlayer.legacyMove("y",-0.1,false);
+    }
+    if(map.s && map[" "]){
+      actualPlayer.move("backward",true);
+      actualPlayer.legacyMove("y",0.1,false);
+    }
+    if(map.s && map.Shift){
+      actualPlayer.move("backward",true);
+      actualPlayer.legacyMove("y",-0.1,false);
+    }
+    if(map.a){
+      actualPlayer.move("left",true);
+    }
+    if(map.d){
+      actualPlayer.move("right",true);
+    }
+    if(map.w){
+      actualPlayer.move("forward",true);
+    }
+    if(map.s){
+      actualPlayer.move("backward",true);
+    }
+    if(map[" "]) {
+      actualPlayer.legacyMove("y",0.1,false);
+    }
+    if(map.Shift){
+      actualPlayer.legacyMove("y",-0.1,false);
+    }
+    if(map.ArrowLeft){
+      actualPlayer.rotate("y",0.1,true);
+    }
+    if(map.ArrowRight) {
+      actualPlayer.rotate("y",-0.1,true);
+    }
+    if(map.ArrowUp) {
+      actualPlayer.rotate("x",0.1,false);
+    }
+    if(map.ArrowDown) {
+      actualPlayer.rotate("x",-0.1,false);
+    }
+    if(map.Escape){
+      num=Misc.displayEscapeMenu(num);
+    }
+    map={};
+    //if(event.key==="F5"){
+    //  promeniKameruU3Lice();
+    //}
+  });
   document.addEventListener("keydown", function onEvent(event) {
     console.info("key:",event.key);
     map[event.key]=true;
     if(map.a && map.w){
       actualPlayer.move("left",true);
       actualPlayer.move("forward",true);
-      map={};
     }
     if(map.a && map.s){
       actualPlayer.move("left",true);
       actualPlayer.move("backward",true);
-      map={};
     }
     if(map.a && map[" "]){
       actualPlayer.move("left",true);
       actualPlayer.legacyMove("y",0.1,false);
-      map={};
     }
     if(map.d && map.w){
       actualPlayer.move("right",true);
       actualPlayer.move("forward",true);
-      map={};
     }
     if(map.d && map.s){
       actualPlayer.move("right",true);
       actualPlayer.move("backward",true);
-      map={};
     }
     if(map.d && map[" "]){
       actualPlayer.move("right",true);
       actualPlayer.legacyMove("y",0.1,false);
-      map={};
     }
     if(map.w && map[" "]){
       actualPlayer.move("forward",true);
       actualPlayer.legacyMove("y",0.1,false);
-      map={};
     }
     if(map.w && map.Shift){
       actualPlayer.move("forward",true);
       actualPlayer.legacyMove("y",-0.1,false);
-      map={};
     }
     if(map.s && map[" "]){
       actualPlayer.move("backward",true);
       actualPlayer.legacyMove("y",0.1,false);
-      map={};
     }
     if(map.s && map.Shift){
       actualPlayer.move("backward",true);
       actualPlayer.legacyMove("y",-0.1,false);
-      map={};
     }
     if(map.a){
       actualPlayer.move("left",true);
-      map={};
     }
     if(map.d){
       actualPlayer.move("right",true);
-      map={};
     }
     if(map.w){
       actualPlayer.move("forward",true);
-      map={};
     }
     if(map.s){
       actualPlayer.move("backward",true);
-      map={};
     }
     if(map[" "]) {
       actualPlayer.legacyMove("y",0.1,false);
-      map={};
     }
     if(map.Shift){
       actualPlayer.legacyMove("y",-0.1,false);
-      map={};
     }
     if(map.ArrowLeft){
       actualPlayer.rotate("y",0.1,true);
-      map={};
     }
     if(map.ArrowRight) {
       actualPlayer.rotate("y",-0.1,true);
-      map={};
     }
     if(map.ArrowUp) {
       actualPlayer.rotate("x",0.1,false);
-      map={};
     }
     if(map.ArrowDown) {
       actualPlayer.rotate("x",-0.1,false);
-      map={};
     }
     if(map.Escape){
       num=Misc.displayEscapeMenu(num);
-      map={};
     }
+    map={};
     //if(event.key==="F5"){
     //  promeniKameruU3Lice();
     //}
   });
-  //default camera position and orientation
+  //Set the "spawn point" for the camera (and player)
   camera.position.y = 10.5;
   camera.position.z = 1;
   camera.rotation.y = Calc.deg2Rad(180);
