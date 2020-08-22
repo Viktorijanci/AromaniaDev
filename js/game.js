@@ -51,165 +51,11 @@ function start(){
   let num = 0, map={};
   document.addEventListener("keyup", function onEvent(event) {
     console.info("key:",event.key);
-    map[event.key]=true;
-    if(map.a && map.w){
-      actualPlayer.move("left",true);
-      actualPlayer.move("forward",true);
-    }
-    if(map.a && map.s){
-      actualPlayer.move("left",true);
-      actualPlayer.move("backward",true);
-    }
-    if(map.a && map[" "]){
-      actualPlayer.move("left",true);
-      actualPlayer.legacyMove("y",0.1,false);
-    }
-    if(map.d && map.w){
-      actualPlayer.move("right",true);
-      actualPlayer.move("forward",true);
-    }
-    if(map.d && map.s){
-      actualPlayer.move("right",true);
-      actualPlayer.move("backward",true);
-    }
-    if(map.d && map[" "]){
-      actualPlayer.move("right",true);
-      actualPlayer.legacyMove("y",0.1,false);
-    }
-    if(map.w && map[" "]){
-      actualPlayer.move("forward",true);
-      actualPlayer.legacyMove("y",0.1,false);
-    }
-    if(map.w && map.Shift){
-      actualPlayer.move("forward",true);
-      actualPlayer.legacyMove("y",-0.1,false);
-    }
-    if(map.s && map[" "]){
-      actualPlayer.move("backward",true);
-      actualPlayer.legacyMove("y",0.1,false);
-    }
-    if(map.s && map.Shift){
-      actualPlayer.move("backward",true);
-      actualPlayer.legacyMove("y",-0.1,false);
-    }
-    if(map.a){
-      actualPlayer.move("left",true);
-    }
-    if(map.d){
-      actualPlayer.move("right",true);
-    }
-    if(map.w){
-      actualPlayer.move("forward",true);
-    }
-    if(map.s){
-      actualPlayer.move("backward",true);
-    }
-    if(map[" "]) {
-      actualPlayer.legacyMove("y",0.1,false);
-    }
-    if(map.Shift){
-      actualPlayer.legacyMove("y",-0.1,false);
-    }
-    if(map.ArrowLeft){
-      actualPlayer.rotate("y",0.1,true);
-    }
-    if(map.ArrowRight) {
-      actualPlayer.rotate("y",-0.1,true);
-    }
-    if(map.ArrowUp) {
-      actualPlayer.rotate("x",0.1,false);
-    }
-    if(map.ArrowDown) {
-      actualPlayer.rotate("x",-0.1,false);
-    }
-    if(map.Escape){
-      num=Misc.displayEscapeMenu(num);
-    }
-    map={};
-    //if(event.key==="F5"){
-    //  promeniKameruU3Lice();
-    //}
+    map[event.key]=false;
   });
   document.addEventListener("keydown", function onEvent(event) {
     console.info("key:",event.key);
     map[event.key]=true;
-    if(map.a && map.w){
-      actualPlayer.move("left",true);
-      actualPlayer.move("forward",true);
-    }
-    if(map.a && map.s){
-      actualPlayer.move("left",true);
-      actualPlayer.move("backward",true);
-    }
-    if(map.a && map[" "]){
-      actualPlayer.move("left",true);
-      actualPlayer.legacyMove("y",0.1,false);
-    }
-    if(map.d && map.w){
-      actualPlayer.move("right",true);
-      actualPlayer.move("forward",true);
-    }
-    if(map.d && map.s){
-      actualPlayer.move("right",true);
-      actualPlayer.move("backward",true);
-    }
-    if(map.d && map[" "]){
-      actualPlayer.move("right",true);
-      actualPlayer.legacyMove("y",0.1,false);
-    }
-    if(map.w && map[" "]){
-      actualPlayer.move("forward",true);
-      actualPlayer.legacyMove("y",0.1,false);
-    }
-    if(map.w && map.Shift){
-      actualPlayer.move("forward",true);
-      actualPlayer.legacyMove("y",-0.1,false);
-    }
-    if(map.s && map[" "]){
-      actualPlayer.move("backward",true);
-      actualPlayer.legacyMove("y",0.1,false);
-    }
-    if(map.s && map.Shift){
-      actualPlayer.move("backward",true);
-      actualPlayer.legacyMove("y",-0.1,false);
-    }
-    if(map.a){
-      actualPlayer.move("left",true);
-    }
-    if(map.d){
-      actualPlayer.move("right",true);
-    }
-    if(map.w){
-      actualPlayer.move("forward",true);
-    }
-    if(map.s){
-      actualPlayer.move("backward",true);
-    }
-    if(map[" "]) {
-      actualPlayer.legacyMove("y",0.1,false);
-    }
-    if(map.Shift){
-      actualPlayer.legacyMove("y",-0.1,false);
-    }
-    if(map.ArrowLeft){
-      actualPlayer.rotate("y",0.1,true);
-    }
-    if(map.ArrowRight) {
-      actualPlayer.rotate("y",-0.1,true);
-    }
-    if(map.ArrowUp) {
-      actualPlayer.rotate("x",0.1,false);
-    }
-    if(map.ArrowDown) {
-      actualPlayer.rotate("x",-0.1,false);
-    }
-    if(map.Escape){
-      num=Misc.displayEscapeMenu(num);
-    }
-    map={};
-    //if(event.key==="F5"){
-    //  promeniKameruU3Lice();
-    //}
   });
   //Set the "spawn point" for the camera (and player)
   camera.position.y = 10.5;
@@ -218,6 +64,7 @@ function start(){
   //Animation
   function animate() {
     requestAnimationFrame(animate);
+    Misc.evaluateMap(map,actualPlayer,num);
     document.getElementById("pos").innerHTML="position: x:"+camera.getWorldPosition().x+" y:"+camera.getWorldPosition().y+" z:"+camera.getWorldPosition().z;
     document.getElementById("orient").innerHTML="orientation: x:"+camera.getWorldDirection().x+" y:"+camera.getWorldDirection().y+" z:"+camera.getWorldDirection().z;
     if (Calc.rad2Deg(camera.rotation.y) > 360) camera.rotation.y -= Calc.deg2Rad(360);

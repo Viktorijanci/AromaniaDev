@@ -63,6 +63,7 @@ class Player {
     this.armor=armor;
     this.inventory=inventory;
   }
+  //pomeranje po nekoj osi, linearno
   legacyMove(direction,delta,debug){
     try{
       if(direction==="x"){

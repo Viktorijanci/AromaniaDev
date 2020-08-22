@@ -30,4 +30,79 @@ function bobbing(camera,num){
   camera.updateProjectionMatrix();
 }
 
-export {changeDOM, displayEscapeMenu, bobbing};
+function evaluateMap(map,actualPlayer,num){
+  if(map.a && map.w){
+    actualPlayer.move("left",true);
+    actualPlayer.move("forward",true);
+  }
+  if(map.a && map.s){
+    actualPlayer.move("left",true);
+    actualPlayer.move("backward",true);
+  }
+  if(map.a && map[" "]){
+    actualPlayer.move("left",true);
+    actualPlayer.legacyMove("y",0.1,false);
+  }
+  if(map.d && map.w){
+    actualPlayer.move("right",true);
+    actualPlayer.move("forward",true);
+  }
+  if(map.d && map.s){
+    actualPlayer.move("right",true);
+    actualPlayer.move("backward",true);
+  }
+  if(map.d && map[" "]){
+    actualPlayer.move("right",true);
+    actualPlayer.legacyMove("y",0.1,false);
+  }
+  if(map.w && map[" "]){
+    actualPlayer.move("forward",true);
+    actualPlayer.legacyMove("y",0.1,false);
+  }
+  if(map.w && map.Shift){
+    actualPlayer.move("forward",true);
+    actualPlayer.legacyMove("y",-0.1,false);
+  }
+  if(map.s && map[" "]){
+    actualPlayer.move("backward",true);
+    actualPlayer.legacyMove("y",0.1,false);
+  }
+  if(map.s && map.Shift){
+    actualPlayer.move("backward",true);
+    actualPlayer.legacyMove("y",-0.1,false);
+  }
+  if(map.a){
+    actualPlayer.move("left",true);
+  }
+  if(map.d){
+    actualPlayer.move("right",true);
+  }
+  if(map.w){
+    actualPlayer.move("forward",true);
+  }
+  if(map.s){
+    actualPlayer.move("backward",true);
+  }
+  if(map[" "]) {
+    actualPlayer.legacyMove("y",0.1,false);
+  }
+  if(map.Shift){
+    actualPlayer.legacyMove("y",-0.1,false);
+  }
+  if(map.ArrowLeft){
+    actualPlayer.rotate("y",0.1,true);
+  }
+  if(map.ArrowRight) {
+    actualPlayer.rotate("y",-0.1,true);
+  }
+  if(map.ArrowUp) {
+    actualPlayer.rotate("x",0.1,false);
+  }
+  if(map.ArrowDown) {
+    actualPlayer.rotate("x",-0.1,false);
+  }
+  if(map.Escape){
+    num=displayEscapeMenu(num);
+  }
+}
+export {changeDOM, displayEscapeMenu, bobbing, evaluateMap};
