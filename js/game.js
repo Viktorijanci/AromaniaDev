@@ -17,20 +17,20 @@ document.getElementById("playGame").addEventListener("click", function onEvent(e
 
 function start(){
   //Create the scene
-  var scene = new THREE.Scene();
+  let scene = new THREE.Scene();
   //Create the camera
-  var camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000 );
-  var renderer = new THREE.WebGLRenderer();
+  let camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+  let renderer = new THREE.WebGLRenderer();
   renderer.setSize( window.innerWidth, window.innerHeight );
   //Setup DOM elements
   Misc.changeDOM(renderer);
   //Create the plane and add it to the scene
-  var geometry = new THREE.BoxGeometry(1000,1,1000);
-  var material = new THREE.MeshToonMaterial({color: "#0000ff"});
-  var cube = new THREE.Mesh( geometry, material );
+  let geometry = new THREE.BoxGeometry(1000,1,1000);
+  let material = new THREE.MeshToonMaterial({color: "#0000ff"});
+  let cube = new THREE.Mesh( geometry, material );
   scene.add(cube);
   // White directional light at half intensity shining from the top.
-  var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+  let directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
   scene.add(directionalLight);
   //Load the model
   let actualModelArr=ModelLoader.loadModel(scene);
@@ -49,12 +49,10 @@ function start(){
   console.info("array:",actualModelArr);
   //Keypress event listeners
   let num = 0, map={};
-  document.addEventListener("keyup", function onEvent(event) {
-    console.info("key:",event.key);
+  document.addEventListener("keyup", e => {
     map[event.key]=false;
   });
-  document.addEventListener("keydown", function onEvent(event) {
-    console.info("key:",event.key);
+  document.addEventListener("keydown", e => {
     map[event.key]=true;
   });
   //Set the "spawn point" for the camera (and player)

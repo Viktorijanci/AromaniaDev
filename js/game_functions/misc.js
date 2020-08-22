@@ -105,4 +105,5 @@ function evaluateMap(map,actualPlayer,num){
     num=displayEscapeMenu(num);
   }
 }
+
 export {changeDOM, displayEscapeMenu, bobbing, evaluateMap};
