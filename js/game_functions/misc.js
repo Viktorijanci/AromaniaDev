@@ -89,18 +89,6 @@ function evaluateMap(map,actualPlayer,num){
   if(map.Shift){
     actualPlayer.legacyMove("y",-0.1,false);
   }
-  if(map.ArrowLeft){
-    actualPlayer.rotate("y",0.1,true);
-  }
-  if(map.ArrowRight) {
-    actualPlayer.rotate("y",-0.1,true);
-  }
-  if(map.ArrowUp) {
-    actualPlayer.rotate("x",0.1,false);
-  }
-  if(map.ArrowDown) {
-    actualPlayer.rotate("x",-0.1,false);
-  }
   if(map.Escape){
     num=displayEscapeMenu(num);
   }

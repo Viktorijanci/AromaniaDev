@@ -3,7 +3,7 @@
 
 //imports
 import * as THREE from 'https://unpkg.com/three@0.119.1/build/three.module.js';
-// import {GLTFLoader} from './GLTFLoader.js';
+import {FirstPersonControls} from './imported_modules/FirstPersonControls.js';
 import * as TWEEN from './imported_modules/tween.esm.js';
 import * as Calc from './game_functions/calc.js';
 import * as Game from './game_functions/classes.js';
@@ -19,7 +19,7 @@ function start(){
   //Create the scene
   let scene = new THREE.Scene();
   //Create the camera
-  let camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+  let camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 0.1, 1000 );
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize( window.innerWidth, window.innerHeight );
   //Setup DOM elements
@@ -36,7 +36,12 @@ function start(){
   let actualModelArr=ModelLoader.loadModel(scene);
   //load the sword (placeholder)
   let swordShape = new THREE.BoxGeometry(0.5,5,0.5);
+  let swordTestTexture = new THREE.TextureLoader().load("../texture/HumanBaseColor.jpg");
+  swordTestTexture.wrapS = THREE.RepeatWrapping;
+  swordTestTexture.wrapT = THREE.RepeatWrapping;
+  swordTestTexture.repeat.set( 4, 4 );
   let swordMaterial = new THREE.MeshToonMaterial({color:"#ffa500"});
+  swordMaterial.map=swordTestTexture;
   let sword = new THREE.Mesh(swordShape,swordMaterial);
   scene.add(sword);
   sword.position.y = 10.5;
@@ -59,16 +64,24 @@ function start(){
   camera.position.y = 10.5;
   camera.position.z = 1;
   camera.rotation.y = Calc.deg2Rad(180);
+  let controls = new FirstPersonControls(camera,renderer.domElement);
+  controls.movementSpeed = 0;
+	controls.domElement = renderer.domElement;
+  controls.rollSpeed = Math.PI / 24;
+	controls.autoForward = false;
+	controls.dragToLook = false;
   //Animation
   function animate() {
     requestAnimationFrame(animate);
     Misc.evaluateMap(map,actualPlayer,num);
-    document.getElementById("pos").innerHTML="position: x:"+camera.getWorldPosition().x+" y:"+camera.getWorldPosition().y+" z:"+camera.getWorldPosition().z;
-    document.getElementById("orient").innerHTML="orientation: x:"+camera.getWorldDirection().x+" y:"+camera.getWorldDirection().y+" z:"+camera.getWorldDirection().z;
+    let trash = new THREE.Vector3();
+    document.getElementById("pos").innerHTML="position: x:"+camera.getWorldPosition(trash).x+" y:"+camera.getWorldPosition(trash).y+" z:"+camera.getWorldPosition(trash).z;
+    document.getElementById("orient").innerHTML="orientation: x:"+camera.getWorldDirection(trash).x+" y:"+camera.getWorldDirection(trash).y+" z:"+camera.getWorldDirection(trash).z;
     if (Calc.rad2Deg(camera.rotation.y) > 360) camera.rotation.y -= Calc.deg2Rad(360);
     if (Calc.rad2Deg(camera.rotation.x) > 360) camera.rotation.x -= Calc.deg2Rad(360);
     if (Calc.rad2Deg(camera.rotation.y) < -360) camera.rotation.y += Calc.deg2Rad(360);
     if (Calc.rad2Deg(camera.rotation.x) < -360) camera.rotation.x += Calc.deg2Rad(360);
+    controls.update(1);
     renderer.render(scene, camera);
   }
   animate();

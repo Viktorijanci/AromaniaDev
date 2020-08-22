@@ -1,7 +1,7 @@
 import * as THREE from 'https://unpkg.com/three@0.119.1/build/three.module.js';
 import * as Calc from './calc.js';
 import * as Misc from './misc.js';
-
+let trash = new THREE.Vector3();
 class Item {
   constructor(name, type,stats, rarity,thumbnail,model){
     this.name=name;
@@ -73,7 +73,7 @@ class Player {
           item.scene.position.x+=delta;
         });
         Misc.bobbing(this.camera, this.camera.position.x);
-        if(debug) console.info("camera location:",this.camera.getWorldPosition());
+        if(debug) console.info("camera location:",this.camera.getWorldPosition(trash));
       }
       if(direction==="z"){
         this.camera.position.z+=delta;
@@ -82,7 +82,7 @@ class Player {
           item.scene.position.x+=delta;
         });
         Misc.bobbing(this.camera, this.camera.position.z);
-        if(debug) console.info("camera location:",this.camera.getWorldPosition());
+        if(debug) console.info("camera location:",this.camera.getWorldPosition(trash));
       }
       if(direction==="y"){
         this.camera.position.y+=delta;
@@ -90,14 +90,14 @@ class Player {
         this.scene.forEach(item => {
           item.scene.position.x+=delta;
         });
-        if(debug) console.info("camera location:",this.camera.getWorldPosition());
+        if(debug) console.info("camera location:",this.camera.getWorldPosition(trash));
       }
     }catch(e){
       console.log(e);
     }
   }
   move(direction,debug){
-    let cameraDirection = this.camera.getWorldDirection();
+    let cameraDirection = this.camera.getWorldDirection(trash);
     cameraDirection.x/=10;
     cameraDirection.z/=10;
     cameraDirection.y=0;
@@ -113,7 +113,7 @@ class Player {
       let leftCamera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
       leftCamera.copy(this.camera,true);
       leftCamera.rotation.y+=Calc.deg2Rad(-90);
-      let newDirection = leftCamera.getWorldDirection();
+      let newDirection = leftCamera.getWorldDirection(trash);
       newDirection.y=0;
       this.camera.position.add(newDirection);
       this.inventory.equip.weapon.model.position.add(newDirection);
@@ -121,26 +121,26 @@ class Player {
       let leftCamera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
       leftCamera.copy(this.camera,true);
       leftCamera.rotation.y+=Calc.deg2Rad(90);
-      let newDirection = leftCamera.getWorldDirection();
+      let newDirection = leftCamera.getWorldDirection(trash);
       newDirection.y=0;
       this.camera.position.add(newDirection);
       this.inventory.equip.weapon.model.position.add(newDirection);
     }
-    if(debug) console.info("camera position:", this.camera.getWorldPosition());
+    if(debug) console.info("camera position:", this.camera.getWorldPosition(trash));
   }
   rotate(direction,delta,debug){
     try {
       // delta=Calc.deg2Rad(delta);
       if(direction==="x"){
         this.camera.rotation.x+=delta;
-        if(debug) console.info("camera direction:",this.camera.getWorldDirection());
+        if(debug) console.info("camera direction:",this.camera.getWorldDirection(trash));
       }
       if(direction==="y"){
         this.camera.rotation.y+=delta;
         this.scene.forEach(item => {
           item.scene.rotation.y+=delta;
         });
-        if(debug) console.info("camera direction:",this.camera.getWorldDirection());
+        if(debug) console.info("camera direction:",this.camera.getWorldDirection(trash));
       }
     }catch(e){
       console.log(e);
