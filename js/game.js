@@ -4,7 +4,6 @@
 //imports
 import * as THREE from 'https://unpkg.com/three@0.119.1/build/three.module.js';
 import {FirstPersonControls} from './imported_modules/FirstPersonControls.js';
-import * as TWEEN from './imported_modules/tween.esm.js';
 import * as Calc from './game_functions/calc.js';
 import * as Game from './game_functions/classes.js';
 import * as Misc from './game_functions/misc.js';
@@ -61,10 +60,10 @@ function start(){
     map[event.key]=true;
   });
   //Set the "spawn point" for the camera (and player)
+  let controls = new FirstPersonControls(camera,renderer.domElement);
   camera.position.y = 10.5;
   camera.position.z = 1;
   camera.rotation.y = Calc.deg2Rad(180);
-  let controls = new FirstPersonControls(camera,renderer.domElement);
   controls.movementSpeed = 0;
 	controls.domElement = renderer.domElement;
   controls.rollSpeed = Math.PI / 24;

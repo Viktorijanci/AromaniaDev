@@ -1,3 +1,5 @@
+import * as TWEEN from './imported_modules/tween.esm.js';
+
 function changeDOM(renderer){
   document.getElementById("gameRender").appendChild( renderer.domElement );
   document.getElementById("gameRender").style.display="inherit";

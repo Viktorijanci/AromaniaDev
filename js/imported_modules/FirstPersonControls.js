@@ -4,7 +4,7 @@ import {
 	Vector3
 } from "https://unpkg.com/three@0.119.1/build/three.module.js";
 
-var FirstPersonControls = function ( object, domElement ) {
+var FirstPersonControls = function (object, domElement) {
 
 	if ( domElement === undefined ) {
 
@@ -134,7 +134,6 @@ var FirstPersonControls = function ( object, domElement ) {
 		this.mouseDragOn = false;
 
 	};
-
 	this.onMouseMove = function ( event ) {
 
 		if ( this.domElement === document ) {
@@ -148,7 +147,6 @@ var FirstPersonControls = function ( object, domElement ) {
 			this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
 
 		}
-
 	};
 
 	this.onKeyDown = function ( event ) {
