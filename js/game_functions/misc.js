@@ -1,4 +1,5 @@
-import * as TWEEN from './imported_modules/tween.esm.js';
+import * as TWEEN from '../imported_modules/tween.esm.js';
+import * as Game from './classes.js';
 
 function changeDOM(renderer){
   document.getElementById("gameRender").appendChild( renderer.domElement );
@@ -34,56 +35,56 @@ function bobbing(camera,num){
 
 function evaluateMap(map,actualPlayer,num){
   if(map.a && map.w){
-    actualPlayer.move("left",true);
-    actualPlayer.move("forward",true);
+    actualPlayer.move("left",false);
+    actualPlayer.move("forward",false);
   }
   if(map.a && map.s){
-    actualPlayer.move("left",true);
-    actualPlayer.move("backward",true);
+    actualPlayer.move("left",false);
+    actualPlayer.move("backward",false);
   }
   if(map.a && map[" "]){
-    actualPlayer.move("left",true);
+    actualPlayer.move("left",false);
     actualPlayer.legacyMove("y",0.1,false);
   }
   if(map.d && map.w){
-    actualPlayer.move("right",true);
-    actualPlayer.move("forward",true);
+    actualPlayer.move("right",false);
+    actualPlayer.move("forward",false);
   }
   if(map.d && map.s){
-    actualPlayer.move("right",true);
-    actualPlayer.move("backward",true);
+    actualPlayer.move("right",false);
+    actualPlayer.move("backward",false);
   }
   if(map.d && map[" "]){
-    actualPlayer.move("right",true);
+    actualPlayer.move("right",false);
     actualPlayer.legacyMove("y",0.1,false);
   }
   if(map.w && map[" "]){
-    actualPlayer.move("forward",true);
+    actualPlayer.move("forward",false);
     actualPlayer.legacyMove("y",0.1,false);
   }
   if(map.w && map.Shift){
-    actualPlayer.move("forward",true);
+    actualPlayer.move("forward",false);
     actualPlayer.legacyMove("y",-0.1,false);
   }
   if(map.s && map[" "]){
-    actualPlayer.move("backward",true);
+    actualPlayer.move("backward",false);
     actualPlayer.legacyMove("y",0.1,false);
   }
   if(map.s && map.Shift){
-    actualPlayer.move("backward",true);
+    actualPlayer.move("backward",false);
     actualPlayer.legacyMove("y",-0.1,false);
   }
   if(map.a){
-    actualPlayer.move("left",true);
+    actualPlayer.move("left",false);
   }
   if(map.d){
-    actualPlayer.move("right",true);
+    actualPlayer.move("right",false);
   }
   if(map.w){
-    actualPlayer.move("forward",true);
+    actualPlayer.move("forward",false);
   }
   if(map.s){
-    actualPlayer.move("backward",true);
+    actualPlayer.move("backward",false);
   }
   if(map[" "]) {
     actualPlayer.legacyMove("y",0.1,false);
@@ -94,6 +95,20 @@ function evaluateMap(map,actualPlayer,num){
   if(map.Escape){
     num=displayEscapeMenu(num);
   }
+  if(map.Mouse0){
+
+  }
+  if(map.Mouse1){
+
+  }
+  if(map.Mouse2){
+
+  }
 }
 
-export {changeDOM, displayEscapeMenu, bobbing, evaluateMap};
+//tepavčeva funkcija
+function randomDrop(){
+
+}
+
+export {changeDOM, displayEscapeMenu, bobbing, evaluateMap, randomDrop};
