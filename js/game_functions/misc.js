@@ -96,7 +96,7 @@ function evaluateMap(map,actualPlayer,num){
     num=displayEscapeMenu(num);
   }
   if(map.Mouse0){
-
+    actualPlayer.attack(true);
   }
   if(map.Mouse1){
 

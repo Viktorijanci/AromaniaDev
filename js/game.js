@@ -47,12 +47,14 @@ function start(){
   let swordShape = new THREE.BoxGeometry(0.5,5,0.5);
 
   //material testing lol
-  let swordTestTexture = new THREE.TextureLoader().load("../texture/HumanBaseColor.jpg");
+  let swordTestTexture = new THREE.TextureLoader().load("../resources/textures/HumanBaseColor.jpg");
   swordTestTexture.wrapS = THREE.RepeatWrapping;
   swordTestTexture.wrapT = THREE.RepeatWrapping;
   swordTestTexture.repeat.set( 4, 4 );
   let swordMaterial = new THREE.MeshToonMaterial({color:"#ffa500"});
   swordMaterial.map=swordTestTexture;
+
+  //defining the actual sword Object3D
   let sword = new THREE.Mesh(swordShape,swordMaterial);
   scene.add(sword);
 
@@ -61,9 +63,21 @@ function start(){
   sword.position.z = 4;
   sword.position.x = -3;
 
+
+
+  //creating the attack rectangle and adding it
+  let attackShape = new THREE.BoxGeometry(3,2,3);
+  let attackMesh = new THREE.MeshToonMaterial({color: "#ffffff"});
+  let attack = new THREE.Mesh(attackShape,);
+  scene.add(attack);
+
+  //setting the default position for the rectangle
+  attack.position.y =10.5;
+  attack.position.z = -1;
+
   //assigning data to newly defined classes
   let swordItem = new Game.Item("Test Sword", "Sword",[new Game.Stat("damage",1)],new Game.Rarity("Exclusive","salmon"),null,sword);
-  let actualPlayer = new Game.Player("amc",actualModelArr,camera,"100","100",new Game.Inventory(new Game.Equip(new Game.PlayerArmor(null,null,null,null,null),swordItem),[]));
+  let actualPlayer = new Game.Player("amc",actualModelArr,camera,attack,"100","100",new Game.Inventory(new Game.Equip(new Game.PlayerArmor(null,null,null,null,null),swordItem),[]));
 
   //Debugging player, will probably delete later because stable
   console.info("inventory:",actualPlayer.inventory);
@@ -74,19 +88,19 @@ function start(){
 
   //Keypress event listeners
   let num = 0, map={};
-  document.addEventListener("keyup", e => {
+  document.addEventListener("keyup", event => {
     console.log(event.key);
     map[event.key]=false;
   });
-  document.addEventListener("keydown", e => {
+  document.addEventListener("keydown", event => {
     console.log(event.key);
     map[event.key]=true;
   });
-  renderer.domElement.addEventListener("mousedown", e => {
+  renderer.domElement.addEventListener("mousedown", event => {
     console.log("Mouse"+event.button);
     map["Mouse"+event.button]=true;
   });
-  renderer.domElement.addEventListener("mouseup", e => {
+  renderer.domElement.addEventListener("mouseup", event => {
     console.log("Mouse"+event.button);
     map["Mouse"+event.button]=false;
   });
@@ -97,7 +111,8 @@ function start(){
   //Set the "spawn point" for the camera (and player)
   camera.position.y = 10.5;
   camera.position.z = 1;
-  camera.rotation.y = Calc.deg2Rad(180);
+  camera.rotation.y=Calc.deg2Rad(180);
+  console.info("first:",camera.getWorldDirection());
 
   //change controls settings
   controls.movementSpeed = 0;

@@ -10,10 +10,35 @@ import * as Misc from './misc.js';
 
 /**
  * Define 3D vectors for storing camera position and direction
- * Probably will implement it somehow to GameState
+ * Probably will implement it somehow to GameState (probably not)
 */
 let worldPosition = new THREE.Vector3();
 let worldOrientation = new THREE.Vector3();
+
+/**
+ * Game level class
+*/
+class Level {
+
+  constructor(name, model){
+
+    /**
+    * Map name
+    * @name Level#name
+    * @type {?string}
+    */
+    this.name=name;
+
+    /**
+    * Map model
+    * @name Level#model
+    * @type {Object3D}
+    */
+    this.model=model;
+
+  }
+
+}
 
 /**
  * Class that stores game's state, will be useful in the future
@@ -22,10 +47,20 @@ class GameState {
 
   constructor(player,level){
 
+    /**
+    * The actual player
+    * @name GameState#player
+    * @type {Player}
+    */
     this.player=player;
 
+    /**
+    * The loaded map
+    * @name GameState#level
+    * @type {?string}
+    */
     if(level===undefined){
-      this.level="admin_room";
+      this.level=new Level("admin_room", null);
     }else{
       this.level=level;
     }
@@ -87,6 +122,9 @@ class Item {
 
 }
 
+/**
+ * Class for containing stats
+*/
 class Stat {
 
   constructor(name, delta,level){
@@ -101,7 +139,7 @@ class Stat {
     /**
      * The "delta" (or strength) of the stat
      * @name Stat#delta
-     * @type {number}
+     * @type {?number}
     */
     this.delta=delta;
 
@@ -109,7 +147,7 @@ class Stat {
      * The level of the stat, parameter can be omitted
      * Upon levelup, strengthens the delta of the stat
      * @name Stat#level
-     * @type {number}
+     * @type {?number}
     */
     if(level===undefined){
       this.level=1;
@@ -121,12 +159,17 @@ class Stat {
 
   /**
    * Levels up the stat
-   * TODO: allow levelling up multiple times at once
    * @params {number} amount of times to level up
    * @returns {?boolean} whether it was successful or not
   */
-  levelUp(){
-
+  levelUp(num){
+    try{
+      this.level+=num;
+      return true;
+    }catch(e){
+      throw e;
+    }
+    return false;
   }
 
 }
@@ -157,6 +200,10 @@ class Rarity {
 
 }
 
+/**
+ * TODO: Evaluate if this class is even worth defining...
+ * ...since it's just an Object with 5 properties
+*/
 class PlayerArmor {
 
   constructor(helmet, chest, leg, boots, gloves){
@@ -302,9 +349,12 @@ class ActualModel{
 
 }
 
+/**
+ * Actual player class
+*/
 class Player {
 
-  constructor(name, scene, camera, health, armor, inventory){
+  constructor(name, scene, camera, rectangle, health, armor, inventory){
 
     /**
      * The name of the player
@@ -326,6 +376,13 @@ class Player {
      * @type {PerspectiveCamera}
     */
     this.camera=camera;
+
+    /**
+     * The attack rectangle
+     * @name Player#rectangle
+     * @type {Mesh}
+    */
+    this.rectangle=rectangle;
 
     /**
      * This player's health
@@ -416,12 +473,16 @@ class Player {
 
       }
 
+      return true;
+
     }catch(e){
 
       //generic error catching
-      console.log(e);
+      throw e;
 
     }
+
+    return false;
 
   }
 
@@ -508,8 +569,7 @@ class Player {
   }
 
   /**
-   * DEPRECATED: USE FirstPersonControls FOR THIS
-   * Rotate the player camera
+   * DEPRECATED
    * @name Player#rotate
    * @param {?string} direction Axis
    * @param {number} delta Amount
@@ -519,18 +579,30 @@ class Player {
     try {
       // delta=Calc.deg2Rad(delta);
       if(direction==="x"){
+
+        //actually rotating the camera
         this.camera.rotation.x+=delta;
+
+        //generic debugging
         if(debug) console.info("camera direction:",this.camera.getWorldDirection(worldOrientation));
+
       }
       if(direction==="y"){
+
+        //rotating the camera
         this.camera.rotation.y+=delta;
+
+        //rotating the model
         this.scene.forEach(item => {
           item.scene.rotation.y+=delta;
         });
+
+        //generic debugging
         if(debug) console.info("camera direction:",this.camera.getWorldDirection(worldOrientation));
+
       }
     }catch(e){
-      console.log(e);
+      throw e;
     }
   }
   //nisam ni završio iz nekog razloga lol
@@ -541,12 +613,21 @@ class Player {
       console.log(e);
     }
   }
-  //možda započnem uskoro
-  attack(){
+  /**
+  * Attack (essentially creates a rectangle in front of the user that causes damage to objects)
+  */
+  attack(debug){
     try{
 
     }catch(e){
       console.log(e);
+    }
+  }
+  block(debug){
+    try{
+
+    }catch(e){
+      throw e;
     }
   }
 }
